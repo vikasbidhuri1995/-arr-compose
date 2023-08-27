@@ -1,49 +1,5 @@
 version: "3.7"
 services:
-    ###### ----- Networking ----- ######
-    traefik:
-        image: traefik:v2.5.1
-        container_name: traefik
-        ports:
-            - 80:80/tcp
-            - 443:443/tcp
-            - 192.168.1.2:8080:8080/tcp # edit ip address to match your network
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=traefik-public
-            - traefik.constraint-label=traefik-public
-        networks:
-            - traefik-public
-        volumes:
-            - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-            - ./traefik/routes:/etc/traefik/routes:ro
-            - ./traefik/logs:/var/log
-            - /var/run/docker.sock:/var/run/docker.sock
- 
-        restart: always
-    
-    uptime-kuma:
-        image: louislam/uptime-kuma
-        container_name: uptime-kuma
-        volumes:
-            - ./uptime-kuma:/app/data
-        ports:
-            - 3001:3001
-        depends_on:
-            - "traefik"
-        networks:
-            - traefik-public
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.uptime_kuma.entryPoints=websecure"
-            - "traefik.http.routers.uptime_kuma.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.uptime_kuma.rule=Host(`status.vikasbidhuri.ddns.com`)" # Edit here to change the domain name
-            - "traefik.http.services.uptime_kuma.loadbalancer.server.port=3001"
-            - "traefik.docker.network=traefik-public"
-            - "traefik.port=3001"
-                
-        restart: unless-stopped
-    
     transmission-openvpn:
         container_name: transmission
         cap_add:
@@ -62,11 +18,8 @@ services:
         ports:
             - '9091:9091'
         image: haugene/transmission-openvpn
-        depends_on:
-            - "traefik"
         restart: unless-stopped
 
-    ###### ----- Media related ----- ######            
     overseerr:
         image: sctx/overseerr:latest
         container_name: overseerr
@@ -77,8 +30,6 @@ services:
             - 5055:5055
         volumes: 
             - ./overseerr/app/config:/app/config
-        depends_on:
-            - "traefik"
         networks:
             - traefik-public
         labels:
@@ -99,8 +50,6 @@ services:
             - TZ=Asia/Kolkata
         volumes: 
             - ./heimdall:/config
-        depends_on:
-            - "traefik"
         ports: 
             - 90:90
         networks:
@@ -139,8 +88,6 @@ services:
             - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8989"
-        depends_on:
-            - "traefik"
         restart: unless-stopped
 
     #############################################
@@ -197,8 +144,6 @@ services:
             - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=6767"
-        depends_on:
-            - "traefik"
         restart: unless-stopped
 
     readarr:
@@ -223,8 +168,6 @@ services:
             - "traefik.http.services.readarr.loadbalancer.server.port=8787"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8787"
-        depends_on:
-            - "traefik"
         restart: unless-stopped
 
     lidarr:
@@ -249,8 +192,6 @@ services:
             - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8686"
-        depends_on:
-            - "traefik"
         restart: unless-stopped
 
     radarr:
@@ -272,8 +213,6 @@ services:
             - "traefik.http.routers.radarr.tls.certResolver=letsEncrypt"
             - "traefik.http.routers.radarr.rule=Host(`radarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.radarr.loadbalancer.server.port=7878"
-        depends_on:
-            - "traefik"
     
     prowlarr:
         image: ghcr.io/linuxserver/prowlarr:develop
@@ -294,8 +233,6 @@ services:
             - "traefik.http.routers.prowlarr.tls.certResolver=letsEncrypt"
             - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
-        depends_on:
-            - "traefik"
     flaresolverr:
         image: flaresolverr/flaresolverr:latest
         container_name: flaresolverr
@@ -333,10 +270,7 @@ services:
             - "traefik.http.services.portainer.loadbalancer.server.port=9000"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=9000"
-        depends_on:
-            - "traefik"
 
 networks:
     traefik-public:
-        external: true
-        driver: bridge
+        driver: host
