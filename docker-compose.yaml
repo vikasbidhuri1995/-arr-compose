@@ -37,7 +37,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.uptime_kuma.entryPoints=websecure"
             - "traefik.http.routers.uptime_kuma.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.uptime_kuma.rule=Host(`status.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.uptime_kuma.rule=Host(`status.vikasbidhuri.ddns.com`)" # Edit here to change the domain name
             - "traefik.http.services.uptime_kuma.loadbalancer.server.port=3001"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=3001"
@@ -54,10 +54,7 @@ services:
             - ./transmission/config:/config
         environment:
             - TRANSMISSION_WEB_UI=flood-for-transmission
-            - OPENVPN_PROVIDER=PROVIDER # Edit here to change the provider
-            - OPENVPN_USERNAME=USERNAME # Edit here to change the username
-            - OPENVPN_PASSWORD=PASSWORD # Edit here to change the password
-            - LOCAL_NETWORK=192.168.1.0/24 # Edit here to match your network
+            - LOCAL_NETWORK=192.168.1.200/24 # Edit here to match your network
         logging:
             driver: json-file
             options:
@@ -75,7 +72,7 @@ services:
         container_name: overseerr
         environment: 
             - LOG_LEVEL=info
-            - TZ=Europe/Paris
+            - TZ=Asia/Kolkata
         ports:
             - 5055:5055
         volumes: 
@@ -88,7 +85,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.overseerr.entryPoints=websecure"
             - "traefik.http.routers.overseerr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.overseerr.rule=Host(`request.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.overseerr.rule=Host(`request.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.docker.network=traefik-public"
             - "traefik.port=5055"
         restart: unless-stopped
@@ -99,7 +96,7 @@ services:
         environment: 
             - PUID=1000
             - PGID=1000
-            - TZ=Europe/Paris
+            - TZ=Asia/Kolkata
         volumes: 
             - ./heimdall:/config
         depends_on:
@@ -112,7 +109,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.heimdall.entryPoints=websecure"
             - "traefik.http.routers.heimdall.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.heimdall.rule=Host(`hub.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.heimdall.rule=Host(`hub.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.docker.network=traefik-public"
             - "traefik.port=80"
         restart: unless-stopped
@@ -123,7 +120,7 @@ services:
         environment:
             - PUID=1000
             - PGID=1000
-            - TZ=Europe/paris
+            - TZ=Asia/Kolkata
             - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
             - TP_THEME=organizr
         volumes:
@@ -138,7 +135,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.sonarr.entryPoints=websecure"
             - "traefik.http.routers.sonarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.sonarr.rule=Host(`sonarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.sonarr.rule=Host(`sonarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8989"
@@ -154,7 +151,7 @@ services:
     #     environment:
     #         - PUID=1000
     #         - PGID=1000
-    #         - TZ=Europe/paris
+    #         - TZ=Asia/Kolkata
     #         - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
     #         - TP_THEME=organizr
     #     volumes:
@@ -169,7 +166,7 @@ services:
     #         - "traefik.enable=true"
     #         - "traefik.http.routers.sonarr_anime.entryPoints=websecure"
     #         - "traefik.http.routers.sonarr_anime.tls.certResolver=letsEncrypt"
-    #         - "traefik.http.routers.sonarr_anime.rule=Host(`sonarr.domain.name`)" # Edit here to change the domain name
+    #         - "traefik.http.routers.sonarr_anime.rule=Host(`sonarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
     #         - "traefik.http.services.sonarr_anime.loadbalancer.server.port=8989"
     #         - "traefik.docker.network=traefik-public"
     #         - "traefik.port=9898"
@@ -196,7 +193,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.bazarr.entryPoints=websecure"
             - "traefik.http.routers.bazarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.bazarr.rule=Host(`bazarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.bazarr.rule=Host(`bazarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=6767"
@@ -210,7 +207,7 @@ services:
         environment:
             - PUID=1000
             - PGID=1000
-            - TZ=Europe/paris
+            - TZ=Asia/Kolkata
         volumes:
             - ./readarr/data:/config
             - /mounted:/books                                                   # Edit here to change the mount point
@@ -222,7 +219,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.readarr.entryPoints=websecure"
             - "traefik.http.routers.readarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.readarr.rule=Host(`readarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.readarr.rule=Host(`readarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.readarr.loadbalancer.server.port=8787"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8787"
@@ -236,7 +233,7 @@ services:
         environment:
             - PUID=1000
             - PGID=1000
-            - TZ=Europe/paris
+            - TZ=Asia/Kolkata
         volumes:
             - ./lidarr/data:/config
             - /mounted:/music                                                   # Edit here to change the mount point
@@ -248,7 +245,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.lidarr.entryPoints=websecure"
             - "traefik.http.routers.lidarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.lidarr.rule=Host(`lidarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.lidarr.rule=Host(`lidarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=8686"
@@ -262,7 +259,7 @@ services:
         environment:
             - PUID=1000
             - PGID=1000
-            - TZ=Europe/paris
+            - TZ=Asia/Kolkata
         volumes:
             - ./radarr/data:/config
             - /mounted:/video                                                   # Edit here to change the mount point
@@ -273,7 +270,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.radarr.entryPoints=websecure"
             - "traefik.http.routers.radarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.radarr.rule=Host(`radarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.radarr.rule=Host(`radarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.radarr.loadbalancer.server.port=7878"
         depends_on:
             - "traefik"
@@ -284,7 +281,7 @@ services:
         environment:
         - PUID=1000
         - PGID=1000
-        - TZ=Europe/paris
+        - TZ=Asia/Kolkata
         volumes:
         - ./prowlarr/data:/config
         # network_mode: "host"
@@ -295,7 +292,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.prowlarr.entryPoints=websecure"
             - "traefik.http.routers.prowlarr.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
         depends_on:
             - "traefik"
@@ -306,7 +303,7 @@ services:
         - LOG_LEVEL=${LOG_LEVEL:-info}
         - LOG_HTML=${LOG_HTML:-false}
         - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-        - TZ=Europe/Paris
+        - TZ=Asia/Kolkata
         # network_mode: "host"
         ports:
         - "${PORT:-8191}:8191"
@@ -332,7 +329,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.portainer.entryPoints=websecure"
             - "traefik.http.routers.portainer.tls.certResolver=letsEncrypt"
-            - "traefik.http.routers.portainer.rule=Host(`portainer.domain.name`)" # Edit here to change the domain name
+            - "traefik.http.routers.portainer.rule=Host(`portainer.vikasbidhuri.ddns.net`)" # Edit here to change the domain name
             - "traefik.http.services.portainer.loadbalancer.server.port=9000"
             - "traefik.docker.network=traefik-public"
             - "traefik.port=9000"
