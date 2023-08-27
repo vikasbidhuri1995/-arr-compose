@@ -30,8 +30,7 @@ services:
             - 5055:5055
         volumes: 
             - ./overseerr/app/config:/app/config
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.overseerr.entryPoints=websecure"
@@ -52,8 +51,7 @@ services:
             - ./heimdall:/config
         ports: 
             - 90:90
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.heimdall.entryPoints=websecure"
@@ -78,8 +76,7 @@ services:
         ports:
             - 7878:7878
             - 8989:8989
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.sonarr.entryPoints=websecure"
@@ -134,8 +131,7 @@ services:
             - /mounted:/video                                                    # Edit here to change the mount point
         ports:
             - 6767:6767
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.bazarr.entryPoints=websecure"
@@ -158,8 +154,7 @@ services:
             - /mounted:/books                                                   # Edit here to change the mount point
         ports:
             - 8788:8787
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.readarr.entryPoints=websecure"
@@ -182,8 +177,7 @@ services:
             - /mounted:/music                                                   # Edit here to change the mount point
         ports:
             - 8686:8686
-        networks:
-            - traefik-public
+       network_mode: host
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.lidarr.entryPoints=websecure"
@@ -255,8 +249,7 @@ services:
         command: -H unix:///var/run/docker.sock
         ports:
             - 9000:9000
-        networks:
-            - traefik-public
+       network_mode: host
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - /etc/localtime:/etc/localtime:ro
@@ -271,6 +264,3 @@ services:
             - "traefik.docker.network=traefik-public"
             - "traefik.port=9000"
 
-networks:
-    traefik-public:
-        driver: host
